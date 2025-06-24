@@ -87,6 +87,10 @@
             <div class="box" id="boxD">D</div>
         </div>
     </div>
+    <div class="possible-balls-section">
+        <h3 style="text-align:center;margin-top:30px;">Boul posib pou soti</h3>
+        <div id="possible-balls" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
+    </div>
     <script>
         // Afficher la date du jour en français
         const dateDiv = document.getElementById('date');
@@ -122,6 +126,32 @@
         document.getElementById('boxB').textContent = sumB;
         document.getElementById('boxC').textContent = sumC;
         document.getElementById('boxD').textContent = sumD;
+
+        // Générer toutes les combinaisons possibles de deux chiffres distincts
+        const values = [sumA, sumB, sumC, sumD];
+        let combinations = [];
+        for(let i=0; i<values.length; i++) {
+            for(let j=0; j<values.length; j++) {
+                if(i !== j) {
+                    const combo = `${values[i]}${values[j]}`;
+                    if(!combinations.includes(combo)) {
+                        combinations.push(combo);
+                    }
+                }
+            }
+        }
+        // Afficher les combinaisons sans répétition
+        const ballsDiv = document.getElementById('possible-balls');
+        combinations.forEach(combo => {
+            const span = document.createElement('span');
+            span.textContent = combo;
+            span.style.background = 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)';
+            span.style.color = '#fff';
+            span.style.padding = '8px 14px';
+            span.style.borderRadius = '8px';
+            span.style.fontWeight = 'bold';
+            ballsDiv.appendChild(span);
+        });
     </script>
 </body>
 </html>
