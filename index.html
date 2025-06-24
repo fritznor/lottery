@@ -100,6 +100,27 @@
             }
             .date-groups-list div { font-size: 0.85rem; }
         }
+        .explanation-box {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            padding: 16px 18px 12px 18px;
+            min-width: 250px;
+            max-width: 350px;
+            z-index: 10;
+        }
+        @media (max-width: 900px) {
+            .explanation-box {
+                position: static;
+                margin: 20px auto 0 auto;
+                display: block;
+                max-width: 95vw;
+                min-width: unset;
+            }
+        }
     </style>
 </head>
 <body>
@@ -132,6 +153,12 @@
                 <div>07=16=25</div>
                 <div>08=17=26</div>
                 <div>09=18=27</div>
+            </div>
+        </div>
+        <div class="explanation-box">
+            <h4 style="margin:10px 0 8px 0; font-size:1.1rem; color:#222;">Eksplikasyon</h4>
+            <div class="explanation-text" style="font-size:1rem; color:#333;">
+                Pou ogmante chans ou nan tablo kote ki make dat sanble nan adisyon yo le nou pran pa egzanp 01=10=19=28, ann ta di : 01 janvier, 10 Janvier, 19 Janvier, 28 Janvier. nou remake dat sa yo sanble, kisa sa sa vle di, repons lan le w al analize anfonksyon boul ki posib yo le yon boul te soti nan tiraj nan youn nan dat presedan gen anpil chans poul remonte anko ann ta di 26 soti le 01 janvier li ka re soti le 10, le 19 oubyen 28. <br><br>alors prans sanw fe kalkil ou, ogmante chans ou.
             </div>
         </div>
         <script>
