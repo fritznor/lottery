@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loterie Animée</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            /* Image de fond animée */
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            animation: bgMove 20s linear infinite alternate;
+        }
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        .container {
+            background: rgba(255,255,255,0.85);
+            max-width: 500px;
+            margin: 40px auto;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            padding: 32px 24px 24px 24px;
+        }
+        .date {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 32px;
+            color: #2d2d2d;
+        }
+        .boxes {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .box {
+            background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%);
+            color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+        }
+        .horizontal-row {
+            display: flex;
+            gap: 18px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 16px 4px; }
+            .box { font-size: 1.1rem; height: 50px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="date" id="date"></div>
+        <div class="boxes">
+            <div class="box">A</div>
+            <div class="box">B</div>
+            <div class="horizontal-row">
+                <div class="box" style="flex:1;">C</div>
+                <div class="box" style="flex:1;">D</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Afficher la date du jour en français
+        const dateDiv = document.getElementById('date');
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const today = new Date();
+        dateDiv.textContent = today.toLocaleDateString('fr-FR', options);
+    </script>
+</body>
+</html>
