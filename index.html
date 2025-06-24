@@ -66,6 +66,18 @@
         #boxC { left: 20%; top: 50%; transform: translateY(-50%); }
         #boxD { right: 20%; top: 50%; transform: translateY(-50%); }
 
+        @media (max-width: 900px) {
+            .explanation-box, .date-groups-box {
+                position: static !important;
+                margin: 20px auto 0 auto;
+                display: block;
+                max-width: 95vw;
+                min-width: unset;
+                left: unset;
+                right: unset;
+                bottom: unset;
+            }
+        }
         @media (max-width: 600px) {
             .container {
                 width: 300px;
@@ -75,6 +87,10 @@
                 width: 50px;
                 height: 50px;
                 font-size: 1.1rem;
+            }
+            .explanation-box, .date-groups-box {
+                margin-top: 12px;
+                margin-bottom: 0;
             }
         }
         .date-groups-box {
@@ -115,12 +131,30 @@
             z-index: 10;
         }
         @media (max-width: 900px) {
-            .explanation-box {
-                position: static;
+            .explanation-box, .date-groups-box {
+                position: static !important;
                 margin: 20px auto 0 auto;
                 display: block;
                 max-width: 95vw;
                 min-width: unset;
+                left: unset;
+                right: unset;
+                bottom: unset;
+            }
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 300px;
+                height: 300px;
+            }
+            .box {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+            .explanation-box, .date-groups-box {
+                margin-top: 12px;
+                margin-bottom: 0;
             }
         }
     </style>
