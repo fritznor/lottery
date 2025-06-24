@@ -93,6 +93,35 @@
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const today = new Date();
         dateDiv.textContent = today.toLocaleDateString('fr-FR', options);
+
+        // Fonction pour réduire à un seul chiffre
+        function reduceToOneDigit(n) {
+            while (n > 9) {
+                n = n.toString().split('').reduce((a, b) => a + Number(b), 0);
+            }
+            return n;
+        }
+
+        // Récupérer les valeurs de la date
+        const day = today.getDate();
+        const month = today.getMonth() + 1;
+        const year = today.getFullYear();
+        const yearStr = year.toString();
+
+        // Calculs pour chaque boîte
+        // A: Somme des deux chiffres du jour
+        let sumA = reduceToOneDigit(day.toString().split('').reduce((a, b) => a + Number(b), 0));
+        // B: Somme des deux chiffres du mois
+        let sumB = reduceToOneDigit(month.toString().split('').reduce((a, b) => a + Number(b), 0));
+        // C: Somme des deux premiers chiffres de l'année
+        let sumC = reduceToOneDigit(Number(yearStr[0]) + Number(yearStr[1]));
+        // D: Somme des deux derniers chiffres de l'année
+        let sumD = reduceToOneDigit(Number(yearStr[2]) + Number(yearStr[3]));
+
+        document.getElementById('boxA').textContent = sumA;
+        document.getElementById('boxB').textContent = sumB;
+        document.getElementById('boxC').textContent = sumC;
+        document.getElementById('boxD').textContent = sumD;
     </script>
 </body>
 </html>
