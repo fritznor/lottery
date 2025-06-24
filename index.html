@@ -78,26 +78,24 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="date" id="date"></div>
-        <div class="boxes">
-            <div class="box" id="boxA">A</div>
-            <div class="box" id="boxB">B</div>
-            <div class="box" id="boxC">C</div>
-            <div class="box" id="boxD">D</div>
+        <div style="text-align:center;margin-top:20px;">
+            <label for="date-picker" style="font-weight:bold;">Choisir une date : </label>
+            <input type="date" id="date-picker" style="padding:6px 10px;border-radius:6px;border:1px solid #ccc;" />
         </div>
-    </div>
-    <div class="possible-balls-section">
-        <h3 style="text-align:center;margin-top:30px;">Boul posib pou soti</h3>
-        <div id="possible-balls" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
-    </div>
-    <script>
-        // Afficher la date du jour en français
-        const dateDiv = document.getElementById('date');
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const today = new Date();
-        dateDiv.textContent = today.toLocaleDateString('fr-FR', options);
-
+        <div class="container">
+            <div class="date" id="date"></div>
+            <div class="boxes">
+                <div class="box" id="boxA">A</div>
+                <div class="box" id="boxB">B</div>
+                <div class="box" id="boxC">C</div>
+                <div class="box" id="boxD">D</div>
+            </div>
+        </div>
+        <div class="possible-balls-section">
+            <h3 style="text-align:center;margin-top:30px;">Boul posib pou soti</h3>
+            <div id="possible-balls" style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;"></div>
+        </div>
+        <script>
         // Fonction pour réduire à un seul chiffre
         function reduceToOneDigit(n) {
             while (n > 9) {
@@ -106,52 +104,78 @@
             return n;
         }
 
-        // Récupérer les valeurs de la date
-        const day = today.getDate();
-        const month = today.getMonth() + 1;
-        const year = today.getFullYear();
-        const yearStr = year.toString();
+        function updateAll(dateObj) {
+            // Afficher la date du jour en français
+            const dateDiv = document.getElementById('date');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateDiv.textContent = dateObj.toLocaleDateString('fr-FR', options);
 
-        // Calculs pour chaque boîte
-        // A: Somme des deux chiffres du jour
-        let sumA = reduceToOneDigit(day.toString().split('').reduce((a, b) => a + Number(b), 0));
-        // B: Somme des deux chiffres du mois
-        let sumB = reduceToOneDigit(month.toString().split('').reduce((a, b) => a + Number(b), 0));
-        // C: Somme des deux premiers chiffres de l'année
-        let sumC = reduceToOneDigit(Number(yearStr[0]) + Number(yearStr[1]));
-        // D: Somme des deux derniers chiffres de l'année
-        let sumD = reduceToOneDigit(Number(yearStr[2]) + Number(yearStr[3]));
+            // Récupérer les valeurs de la date
+            const day = dateObj.getDate();
+            const month = dateObj.getMonth() + 1;
+            const year = dateObj.getFullYear();
+            const yearStr = year.toString();
 
-        document.getElementById('boxA').textContent = sumA;
-        document.getElementById('boxB').textContent = sumB;
-        document.getElementById('boxC').textContent = sumC;
-        document.getElementById('boxD').textContent = sumD;
+            // Calculs pour chaque boîte
+            let sumA = reduceToOneDigit(day.toString().split('').reduce((a, b) => a + Number(b), 0));
+            let sumB = reduceToOneDigit(month.toString().split('').reduce((a, b) => a + Number(b), 0));
+            let sumC = reduceToOneDigit(Number(yearStr[0]) + Number(yearStr[1]));
+            let sumD = reduceToOneDigit(Number(yearStr[2]) + Number(yearStr[3]));
 
-        // Générer toutes les combinaisons possibles de deux chiffres distincts
-        const values = [sumA, sumB, sumC, sumD];
-        let combinations = [];
-        for(let i=0; i<values.length; i++) {
-            for(let j=0; j<values.length; j++) {
-                if(i !== j) {
-                    const combo = `${values[i]}${values[j]}`;
-                    if(!combinations.includes(combo)) {
-                        combinations.push(combo);
+            document.getElementById('boxA').textContent = sumA;
+            document.getElementById('boxB').textContent = sumB;
+            document.getElementById('boxC').textContent = sumC;
+            document.getElementById('boxD').textContent = sumD;
+
+            // Générer toutes les combinaisons possibles de deux chiffres distincts sans inverses
+            const values = [sumA, sumB, sumC, sumD];
+            let combinations = [];
+            for(let i=0; i<values.length; i++) {
+                for(let j=i+1; j<values.length; j++) {
+                    if(values[i] !== values[j]) {
+                        combinations.push(`${values[i]}${values[j]}`);
+                        combinations.push(`${values[j]}${values[i]}`);
                     }
                 }
             }
+            // Filtrer pour ne garder qu'une seule version de chaque paire (ex: 26 ou 62, pas les deux)
+            let uniqueCombos = [];
+            let seen = new Set();
+            combinations.forEach(combo => {
+                let sorted = combo.split('').sort().join('');
+                if(!seen.has(sorted)) {
+                    uniqueCombos.push(combo);
+                    seen.add(sorted);
+                }
+            });
+
+            // Afficher les combinaisons
+            const ballsDiv = document.getElementById('possible-balls');
+            ballsDiv.innerHTML = '';
+            uniqueCombos.forEach(combo => {
+                const span = document.createElement('span');
+                span.textContent = combo;
+                span.style.background = 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)';
+                span.style.color = '#fff';
+                span.style.padding = '8px 14px';
+                span.style.borderRadius = '8px';
+                span.style.fontWeight = 'bold';
+                ballsDiv.appendChild(span);
+            });
         }
-        // Afficher les combinaisons sans répétition
-        const ballsDiv = document.getElementById('possible-balls');
-        combinations.forEach(combo => {
-            const span = document.createElement('span');
-            span.textContent = combo;
-            span.style.background = 'linear-gradient(135deg, #43cea2 0%, #185a9d 100%)';
-            span.style.color = '#fff';
-            span.style.padding = '8px 14px';
-            span.style.borderRadius = '8px';
-            span.style.fontWeight = 'bold';
-            ballsDiv.appendChild(span);
+
+        // Initialisation avec la date du jour
+        const today = new Date();
+        updateAll(today);
+        // Mettre la date du jour dans le date-picker
+        const datePicker = document.getElementById('date-picker');
+        datePicker.valueAsDate = today;
+        datePicker.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            if (!isNaN(selectedDate)) {
+                updateAll(selectedDate);
+            }
         });
-    </script>
+        </script>
 </body>
 </html>
