@@ -165,13 +165,22 @@
         }
 
         // Initialisation avec la date du jour
-        const today = new Date();
-        updateAll(today);
-        // Mettre la date du jour dans le date-picker
         const datePicker = document.getElementById('date-picker');
-        datePicker.valueAsDate = today;
+        // Fonction pour formater la date en yyyy-mm-dd pour l'input date
+        function formatDateForInput(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+        // Initialiser le date-picker et la table ronde avec la même date
+        const today = new Date();
+        datePicker.value = formatDateForInput(today);
+        updateAll(today);
         datePicker.addEventListener('change', function() {
-            const selectedDate = new Date(this.value);
+            // Créer la date à partir de la valeur de l'input (évite décalage fuseau horaire)
+            const [year, month, day] = this.value.split('-');
+            const selectedDate = new Date(Number(year), Number(month) - 1, Number(day));
             if (!isNaN(selectedDate)) {
                 updateAll(selectedDate);
             }
